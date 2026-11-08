@@ -6,7 +6,7 @@
      1. Que la página carga sin un solo error de consola y sin imágenes rotas.
      2. El botón con stepper: «+ Agregar» → [ − ] [ 1 ] [ + ] → … → vuelve a
         «+ Agregar» al llegar a 0, y que el carrito global cuadra.
-     3. Los precios: subtotal por línea y TOTAL, con los números del flyer.
+     3. Los precios: subtotal por línea y TOTAL, con los números que dio el negocio.
      4. Los jugos: presentación (agua/leche) cambia el precio y el sabor crea
         una línea propia.
      5. La factura de WhatsApp: campos obligatorios y texto exacto.
@@ -210,9 +210,9 @@ try {
     'el mensaje lleva nombre y dirección');
   comprobar(texto.includes('Notas: Llamar al llegar'), 'el mensaje lleva las notas del pedido');
 
-  /* 7 · las cinco categorías del flyer están */
+  /* 7 · las cinco categorías del menú están */
   const categorias = await pagina.$$eval('.categoria__titulo', (n) => n.map((x) => x.textContent.trim()));
-  comprobar(categorias.length === 5, 'las cinco categorías del flyer están en la página', categorias.join(' / '));
+  comprobar(categorias.length === 5, 'las cinco categorías del menú están en la página', categorias.join(' / '));
 
   /* 8 · sin desbordes y persistencia */
   const desborde = await pagina.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
