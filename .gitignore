@@ -1,0 +1,13 @@
+# Lo interno no va al repositorio público: se queda en el equipo.
+evidencias/
+LEEME-REVISION.txt
+
+# Credenciales: NUNCA al repositorio (el token de publicación va aquí).
+.secrets/
+
+# Dependencias y ruido del sistema
+herramientas/node_modules/
+node_modules/
+*.log
+.DS_Store
+Thumbs.db

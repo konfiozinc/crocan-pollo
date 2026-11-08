@@ -1,0 +1,33 @@
+# ═══════════════════════════════════════════════════════════════════════════
+#  GitHub Pages · qué se publica de este repositorio
+#  KZ-MENU-005
+#
+#  Pages sirve la RAÍZ del repositorio. Este archivo recorta el artefacto a lo
+#  que el sitio necesita: la página, sus recursos y el logotipo.
+#
+#  Queda fuera de la publicación todo lo interno: las herramientas de prueba,
+#  las capturas, el README y el original entregado por el cliente (que ya está
+#  normalizado en assets/img/marca/). Nada de eso se borra del repositorio:
+#  solo deja de servirse en el sitio público.
+#
+#  Importante: al definir `exclude` se sustituye la lista por omisión de
+#  Jekyll, por eso se repiten aquí sus entradas.
+# ═══════════════════════════════════════════════════════════════════════════
+
+title: Crocan Pollo — ¡Nunca me vas a olvidar!
+description: Pollo asado y apanado en Los Girasoles, Zona Rosa. Pedidos por WhatsApp.
+
+exclude:
+  # Lista por omisión de Jekyll
+  - .sass-cache
+  - .jekyll-cache
+  - gemfiles
+  - node_modules
+  - vendor
+
+  # Interno de KONFÍO ZINC / del proyecto: nunca se sirve
+  - herramientas
+  - evidencias
+  - README.md
+  - .gitignore
+  - logocrocanpollo.jpeg
