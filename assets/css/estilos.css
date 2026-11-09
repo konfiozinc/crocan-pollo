@@ -739,12 +739,100 @@ button { font-family: inherit; cursor: pointer; }
 }
 .campo textarea:focus-visible { outline: 3px solid var(--amarillo); outline-offset: 1px; }
 
-/* ─── Ajustes de móvil ────────────────────────────────────────────────── */
+/* ═══════════════════════════════════════════════════════════════════════
+   14 · KZ-MENU-006 · CORRECCIÓN VISUAL Y UX
+   Cada regla responde a una medición, no a una impresión. Las cifras del
+   «antes» están en evidencias/medidas-antes.json.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* 14.1 · [hidden] tiene que ocultar DE VERDAD.
+   `.stepper { display: inline-flex }` anulaba el atributo `hidden`: con cantidad 0
+   se veían a la vez «+ Agregar» y el stepper vacío [−][0][+]. Eran dos controles
+   para lo mismo y, peor, el stepper ocupaba sitio y comprimía el texto. */
+[hidden] { display: none !important; }
+
+/* 14.2 · Tarjeta: información arriba, acciones debajo.
+   Antes era una rejilla de tres columnas (icono | texto | acción). Con 2, 3 y 4
+   columnas de menú, la columna de texto se quedaba en 37 px (768), 0 px (1024) y
+   10 px (1440): el nombre se partía letra a letra y el precio no se leía. Ahora la
+   acción va siempre en su propia fila: el texto usa todo el ancho disponible y
+   todas las tarjetas de una fila comparten altura. */
+.platillo {
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-areas:
+    "icono cuerpo"
+    "accion accion";
+  row-gap: .5rem;
+  align-items: start;
+}
+.platillo__icono { grid-area: icono; }
+.platillo__cuerpo { grid-area: cuerpo; min-width: 0; }
+.platillo__accion { grid-area: accion; justify-content: flex-end; padding-top: .1rem; }
+
+/* 14.3 · Blancos táctiles de 44 px como mínimo (antes: 35,2 px el stepper y 28 px
+   las variantes). Se mantiene el tamaño también dentro del carrito. */
+.stepper { padding: .2rem; gap: .2rem; }
+.stepper button { width: 2.75rem; height: 2.75rem; font-size: 1.15rem; }
+.stepper span { min-width: 1.8rem; font-size: 1rem; }
+.agregar { min-height: 44px; font-size: .85rem; }
+.platillo__variantes button { min-height: 44px; padding: .45rem .85rem; font-size: .8rem; }
+.chip { min-height: 44px; font-size: .8rem; }
+.linea__quitar { width: 2.75rem; height: 2.75rem; }
+.linea__obs { min-height: 44px; }
+.carrito__cerrar { width: 2.75rem; height: 2.75rem; font-size: 1.1rem; }
+.carrito { scrollbar-gutter: stable; }
+
+/* 14.4 · Etiqueta de horario con contraste real.
+   Antes era amarillo al 22 % sobre el degradado rojo del hero: el fondo real
+   compuesto era un marrón turbio, no el amarillo que declaraba el CSS. Ahora es
+   amarillo sólido con texto casi negro (contraste medido muy por encima de 4,5:1). */
+.insignia-horario {
+  background: var(--amarillo);
+  border: 2px solid var(--crema);
+  color: #2A1E00;
+  font-size: .88rem;
+  padding: .45rem .95rem;
+  box-shadow: 0 4px 14px rgb(0 0 0 / .28);
+}
+
+/* 14.5 · Jugos: presentación y sabor legibles y seleccionables. */
+.sabores { flex-wrap: wrap; gap: .5rem; align-items: center; }
+.sabores label { font-size: .78rem; }
+.sabores select {
+  flex: 1 1 11rem; min-height: 44px;
+  font-size: .95rem; font-weight: 800;
+  padding: .4rem .6rem; border-radius: 12px;
+}
+
+/* 14.6 · Textos del carrito con tamaño de lectura. */
+.linea__nombre { font-size: .95rem; }
+.linea__precio { font-size: .85rem; }
+
+/* 14.7 · Pie: jerarquía, orden y legibilidad. */
+.pie__datos { font-size: .95rem; gap: .55rem; line-height: 1.5; }
+.pie__datos a { text-decoration: underline; text-underline-offset: 2px; }
+.pie__redes-titulo { font-size: .9rem; line-height: 1.5; }
+.pie__legal { font-size: .8rem; color: rgb(255 253 246 / .72); }
+
+/* 14.8 · Columnas del menú: ninguna tan estrecha que deforme el contenido.
+   A 1440 se mantienen 3 columnas en vez de 4: con la acción debajo, 3 columnas de
+   ~430 px dejan el texto cómodo, mientras que 4 lo dejaban en 313 px. */
+@media (min-width: 720px) {
+  .platillos { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .8rem; }
+}
+@media (min-width: 1024px) {
+  .platillos { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .9rem; }
+}
+@media (min-width: 1440px) {
+  .platillos { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+/* 14.9 · Móvil: la promoción y el botón de agregar a lo ancho. */
 @media (max-width: 460px) {
   .promo { padding: .8rem .85rem; }
   .promo__titulo { font-size: .92rem; }
-  .platillo { grid-template-columns: auto 1fr; }
-  .platillo__accion { grid-column: 1 / -1; justify-content: flex-end; }
-  .sabores { flex-wrap: wrap; }
+  .platillo__accion { justify-content: stretch; }
+  .platillo__accion .agregar { width: 100%; }
+  .sabores select { flex-basis: 100%; }
 }
 
