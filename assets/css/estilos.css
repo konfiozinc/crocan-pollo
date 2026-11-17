@@ -418,9 +418,18 @@ button { font-family: inherit; cursor: pointer; }
   border-radius: 22px 22px 0 0;
   box-shadow: var(--sombra-fuerte);
   transform: translateY(102%);
-  transition: transform .3s cubic-bezier(.16, 1, .3, 1);
+  /* KZ-QUALITY-006: cerrado, el cajón sale de pantalla con transform Y deja de
+     ser alcanzable con el tabulador. Al abrir se anula la transición de
+     visibility para que aparezca de inmediato; al cerrar se retrasa para no
+     cortar la animación de salida. Mismo patrón que brosty-papas. */
+  visibility: hidden;
+  transition: transform .3s cubic-bezier(.16, 1, .3, 1), visibility 0s linear .3s;
 }
-.carrito.abierto { transform: translateY(0); }
+.carrito.abierto {
+  transform: translateY(0);
+  visibility: visible;
+  transition: transform .3s cubic-bezier(.16, 1, .3, 1), visibility 0s linear 0s;
+}
 
 .carrito__cabeza {
   display: flex; align-items: center; gap: .7rem;
