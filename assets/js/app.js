@@ -576,8 +576,31 @@
     $$('.categoria').forEach(function (seccion) { observador.observe(seccion); });
   }
 
+  /* KZ-QUALITY-006: al volver a la página, la tarjeta debe recordar qué variante
+     se pidió. `claveDe()` se calcula con la variante marcada en el DOM, así que
+     si el pedido guardado trae otra (p. ej. «En leche» mientras la tarjeta
+     muestra «En agua»), la línea no se encontraba: la variante elegida se perdía
+     y el contador volvía a 0. Se marca la variante guardada ANTES de pintar para
+     que el resto del pintado trabaje ya con la clave correcta. Mismo criterio
+     que brosty-papas (sincronizarVariantes). */
+  function sincronizarVariantes() {
+    tarjetas.forEach(function (tarjeta) {
+      var id = tarjeta.getAttribute('data-id');
+      var guardadas = pedido.lineas.filter(function (l) { return l.id === id; });
+      if (!guardadas.length) return;
+      var elegida = varianteElegida(tarjeta);
+      var yaEsta = guardadas.some(function (l) { return l.variante === elegida; });
+      if (yaEsta) return;
+      var mejor = guardadas.slice().sort(function (a, b) { return b.cantidad - a.cantidad; })[0];
+      $$('.variante', tarjeta).forEach(function (boton) {
+        boton.setAttribute('aria-pressed', String(boton.getAttribute('data-variante') === mejor.variante));
+      });
+    });
+  }
+
   /* ───────── arranque ───────── */
   leer();
+  sincronizarVariantes();
   tarjetas.forEach(refrescarPrecioVisible);
   pintar();
 })();
